@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, Field
 
 
@@ -13,3 +15,12 @@ class UpdateAdRequest(BaseModel):
     description: str | None = None
     price: float | None = Field(None, gt=0)
     author: str | None = None
+
+
+class AdResponse(BaseModel):
+    id: int
+    title: str
+    description: str
+    price: float
+    author: str
+    created_at: datetime

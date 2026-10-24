@@ -1,13 +1,19 @@
 from datetime import datetime, timezone
-from pydantic import BaseModel, ConfigDict, Field
+
+from sqlalchemy import Column, DateTime, Float, Integer, String
+from sqlalchemy.orm import DeclarativeBase
 
 
-class Ad(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
+class Base(DeclarativeBase):
+    pass
 
-    id: str = Field(description="Unique identifier for the ad")
-    title: str
-    description: str
-    price: float
-    author: str
-    created_at: datetime
+
+class Ad(Base):
+    __tablename__ = "ads"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    price = Column(Float, nullable=False)
+    author = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
